@@ -1,23 +1,17 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import Image from 'next/image';
-
 interface PhotoAvatarProps {
   state: 'idle' | 'listening' | 'speaking';
   isSpeaking: boolean;
 }
 
 export function PhotoAvatar({ state, isSpeaking }: PhotoAvatarProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-
   return (
     <div
-      ref={containerRef}
       className="relative w-full h-full flex items-center justify-center overflow-hidden"
       style={{ background: 'radial-gradient(ellipse at 50% 30%, #0d1f35 0%, #04070f 100%)' }}
     >
-      {/* Ambient glow behind Sofia */}
+      {/* Ambient background glow */}
       <div
         className="absolute rounded-full blur-3xl transition-all duration-1000"
         style={{
@@ -26,58 +20,52 @@ export function PhotoAvatar({ state, isSpeaking }: PhotoAvatarProps) {
           top: '10%',
           left: '20%',
           background: isSpeaking
-            ? 'rgba(124, 58, 237, 0.18)'
+            ? 'rgba(124, 58, 237, 0.25)'
             : state === 'listening'
-            ? 'rgba(0, 212, 255, 0.12)'
+            ? 'rgba(0, 212, 255, 0.16)'
             : 'rgba(0, 100, 160, 0.08)',
           transition: 'background 0.8s ease',
         }}
       />
 
-      {/* Sofia photo */}
+      {/* Sofia Photo Card */}
       <div
-        className="relative z-10"
+        className={`relative z-10 w-[88%] max-w-[400px] aspect-[3/4] rounded-[20px] overflow-hidden ${
+          isSpeaking ? 'animate-active-speaking' : 'animate-breathing'
+        }`}
         style={{
-          width: '88%',
-          maxWidth: '400px',
-          aspectRatio: '3/4',
-          borderRadius: '20px',
-          overflow: 'hidden',
           boxShadow: isSpeaking
-            ? '0 0 0 2px rgba(124,58,237,0.5), 0 8px 60px rgba(124,58,237,0.3), 0 2px 20px rgba(0,0,0,0.5)'
+            ? '0 0 0 2px rgba(124,58,237,0.5), 0 8px 60px rgba(124,58,237,0.35), 0 2px 20px rgba(0,0,0,0.5)'
             : state === 'listening'
-            ? '0 0 0 2px rgba(0,212,255,0.4), 0 8px 60px rgba(0,212,255,0.15), 0 2px 20px rgba(0,0,0,0.5)'
+            ? '0 0 0 2px rgba(0,212,255,0.4), 0 8px 60px rgba(0,212,255,0.2), 0 2px 20px rgba(0,0,0,0.5)'
             : '0 0 0 1px rgba(255,255,255,0.08), 0 8px 40px rgba(0,0,0,0.5)',
-          transition: 'box-shadow 0.6s ease',
+          transition: 'all 0.6s ease',
         }}
       >
-        <Image
+        {/* Clean, Undivided Base Portrait */}
+        <img
           src="/sofia.png"
           alt="Sofia - AI Communication Coach"
-          fill
-          style={{ objectFit: 'cover', objectPosition: 'center top' }}
-          priority
+          className="absolute inset-0 w-full h-full object-cover"
         />
 
-        {/* Subtle speaking pulse overlay on mouth area */}
+        {/* Speaking visual overlay */}
         {isSpeaking && (
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 z-20 pointer-events-none"
             style={{
-              background:
-                'linear-gradient(to top, rgba(124,58,237,0.08) 0%, transparent 40%)',
+              background: 'linear-gradient(to top, rgba(124,58,237,0.08) 0%, transparent 50%)',
               animation: 'speakingPulse 0.6s ease-in-out infinite alternate',
             }}
           />
         )}
 
-        {/* Listening rim glow */}
+        {/* Listening visual overlay */}
         {state === 'listening' && !isSpeaking && (
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 z-20 pointer-events-none"
             style={{
-              background:
-                'linear-gradient(to bottom, rgba(0,212,255,0.05) 0%, transparent 50%)',
+              background: 'linear-gradient(to bottom, rgba(0,212,255,0.05) 0%, transparent 50%)',
               animation: 'listeningPulse 1.5s ease-in-out infinite alternate',
             }}
           />
@@ -97,16 +85,8 @@ export function PhotoAvatar({ state, isSpeaking }: PhotoAvatarProps) {
         <div
           className="w-2 h-2 rounded-full flex-shrink-0"
           style={{
-            background: isSpeaking
-              ? '#7c3aed'
-              : state === 'listening'
-              ? '#00d4ff'
-              : '#4a5568',
-            boxShadow: isSpeaking
-              ? '0 0 8px #7c3aed'
-              : state === 'listening'
-              ? '0 0 8px #00d4ff'
-              : 'none',
+            background: isSpeaking ? '#7c3aed' : state === 'listening' ? '#00d4ff' : '#4a5568',
+            boxShadow: isSpeaking ? '0 0 8px #7c3aed' : state === 'listening' ? '0 0 8px #00d4ff' : 'none',
             transition: 'all 0.4s ease',
           }}
         />
@@ -116,20 +96,11 @@ export function PhotoAvatar({ state, isSpeaking }: PhotoAvatarProps) {
         >
           Sofia — AI Coach
         </span>
-        <span
-          className="text-xs"
-          style={{ color: '#4a5568' }}
-        >
-          •
-        </span>
+        <span className="text-xs" style={{ color: '#4a5568' }}>•</span>
         <span
           className="text-xs"
           style={{
-            color: isSpeaking
-              ? '#a78bfa'
-              : state === 'listening'
-              ? '#00d4ff'
-              : '#4a5568',
+            color: isSpeaking ? '#a78bfa' : state === 'listening' ? '#00d4ff' : '#4a5568',
             transition: 'color 0.4s ease',
           }}
         >
@@ -137,15 +108,30 @@ export function PhotoAvatar({ state, isSpeaking }: PhotoAvatarProps) {
         </span>
       </div>
 
-      {/* CSS keyframes injected */}
+      {/* CSS Animations */}
       <style>{`
         @keyframes speakingPulse {
-          from { opacity: 0.4; }
-          to   { opacity: 1; }
+          from { opacity: 0.3; }
+          to   { opacity: 0.9; }
         }
         @keyframes listeningPulse {
           from { opacity: 0.3; }
-          to   { opacity: 0.9; }
+          to   { opacity: 0.8; }
+        }
+        .animate-breathing {
+          animation: breathing 4s ease-in-out infinite;
+        }
+        @keyframes breathing {
+          0%, 100% { transform: translateY(0px) scale(1); }
+          50%      { transform: translateY(-4px) scale(1.005); }
+        }
+        .animate-active-speaking {
+          animation: activeSpeaking 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes activeSpeaking {
+          0%   { transform: translateY(0px) scale(1) rotate(0deg); }
+          50%  { transform: translateY(-3px) scale(1.01) rotate(0.3deg); }
+          100% { transform: translateY(-1px) scale(1.005) rotate(-0.3deg); }
         }
       `}</style>
     </div>
