@@ -37,24 +37,6 @@ declare global {
     onerror: ((event: SpeechRecognitionErrorEvent) => void) | null;
     onresult: ((event: SpeechRecognitionEvent) => void) | null;
   }
-
-  interface SpeechRecognitionResultList {
-    length: number;
-    item(index: number): SpeechRecognitionResult;
-    [index: number]: SpeechRecognitionResult;
-  }
-
-  interface SpeechRecognitionResult {
-    isFinal: boolean;
-    length: number;
-    item(index: number): SpeechRecognitionAlternative;
-    [index: number]: SpeechRecognitionAlternative;
-  }
-
-  interface SpeechRecognitionAlternative {
-    transcript: string;
-    confidence: number;
-  }
 }
 
 export function VoiceRecorder({ onTranscript, onListeningChange, isActive }: VoiceRecorderProps) {

@@ -208,7 +208,7 @@ export function HumanAvatar({ state, currentViseme, isSpeaking }: HumanAvatarPro
   }
 
   return (
-    <group ref={groupRef} position={[0, -0.05, 0]}>
+    <group ref={groupRef as React.Ref<THREE.Group>} position={[0, -0.05, 0]}>
       <primitive
         object={gltf.scene}
         scale={1}
@@ -227,7 +227,7 @@ function ProceduralFaceAvatar({
   state,
   isSpeaking,
 }: {
-  groupRef: React.RefObject<THREE.Group | null>;
+  groupRef: React.RefObject<THREE.Group | null> | React.MutableRefObject<THREE.Group | null>;
   state: AvatarState;
   isSpeaking: boolean;
 }) {
@@ -272,7 +272,7 @@ function ProceduralFaceAvatar({
   const darkColor = new THREE.Color('#2a1506');
 
   return (
-    <group ref={groupRef} position={[0, -0.05, 0]}>
+    <group ref={groupRef as React.Ref<THREE.Group>} position={[0, -0.05, 0]}>
       {/* Head */}
       <mesh position={[0, 0, 0]}>
         <sphereGeometry args={[0.28, 32, 32]} />
