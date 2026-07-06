@@ -5,6 +5,11 @@ export const metadata: Metadata = {
   title: 'TalkSense — AI Communication Coaching',
   description: 'Practice and master your communication skills with TalkSense\'s AI-powered coaching. Real-time feedback, voice analysis, and photorealistic AI avatar coaching sessions.',
   keywords: ['AI coaching', 'communication skills', 'interview prep', 'public speaking', 'voice analysis'],
+  icons: {
+    icon: '/favicon.ico?v=2',
+    shortcut: '/favicon.ico?v=2',
+    apple: '/favicon.ico?v=2',
+  },
   openGraph: {
     title: 'TalkSense — AI Communication Coaching',
     description: 'Master communication skills with AI-powered coaching and a photorealistic avatar coach.',
